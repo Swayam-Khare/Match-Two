@@ -1,0 +1,51 @@
+/* box-sizing reset scoped to this component */
+.game-screen-root,
+.game-screen-root *,
+.game-screen-root *::before,
+.game-screen-root *::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------
+   Tokens (kept in sync with the rest of the app)
+--------------------------------------------- */
+.game-screen-root {
+  --bg-void: #0a0d1a;
+}
+
+/* ---------------------------------------------
+   Layout
+--------------------------------------------- */
+.game-screen-root {
+  min-height: 100dvh;
+  width: 100%;
+  background: var(--bg-void);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* top/side padding keeps content off the viewport edges;
+     extra bottom padding gives room on phones with a gesture bar */
+  padding: 28px 20px calc(28px + env(safe-area-inset-bottom, 0px));
+
+  /* space between the scoreboard and the grid below it */
+  gap: 32px;
+}
+
+/* Scoreboard and Grid both already cap their own max-width and
+   center themselves, so game-screen-root just needs to give them
+   full width to center within. */
+.game-screen-root > * {
+  width: 100%;
+}
+
+/* ---------------------------------------------
+   Small screens
+--------------------------------------------- */
+@media (max-width: 420px) {
+  .game-screen-root {
+    padding: 18px 12px calc(18px + env(safe-area-inset-bottom, 0px));
+    gap: 22px;
+  }
+}

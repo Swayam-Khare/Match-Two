@@ -1,0 +1,203 @@
+/* box-sizing reset scoped to this component */
+.card,
+.card * {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------
+   Tokens (kept in sync with the rest of the app)
+--------------------------------------------- */
+.card {
+  --bg-panel-raised: #1c2242;
+  --bg-slot: #10142a;
+  --accent-amber: #ffb454;
+  --accent-match: #34d399;
+  --text-primary: #f5f3ee;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+
+  --font-display: "Fredoka", system-ui, sans-serif;
+}
+
+/* ---------------------------------------------
+   Outer card — sets up the 3D flip perspective
+--------------------------------------------- */
+.card {
+  width: 100%;
+  height: 100%;
+  perspective: 800px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+/* flip to reveal the front face */
+.card--revealed .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* ---------------------------------------------
+   Faces
+--------------------------------------------- */
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1.5px solid var(--border-subtle);
+}
+
+.card-face--back {
+  background: var(--bg-slot);
+}
+
+.card-face--front {
+  height: 100%;
+  background: var(--bg-panel-raised);
+  transform: rotateY(180deg);
+  position: relative;
+}
+
+/* matched cards get a persistent green border, on top of whichever
+   face is currently showing */
+.card--matched .card-face {
+  border-color: var(--accent-match);
+  box-shadow: 0 0 0 1.5px var(--accent-match);
+}
+
+/* ---------------------------------------------
+   Match burst — stars/dots flying outward from center.
+   Rendered once, on mount, when isMatched flips to true.
+--------------------------------------------- */
+.card-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+
+.card-burst-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 14px;
+  line-height: 1;
+  transform: translate(-50%, -50%) rotate(var(--angle));
+  animation: burstOut 0.7s ease-out forwards;
+}
+
+/* cycle a few colors across particles for a confetti feel */
+.card-burst-particle:nth-child(4n + 1) {
+  color: var(--accent-match);
+}
+.card-burst-particle:nth-child(4n + 2) {
+  color: var(--accent-amber);
+}
+.card-burst-particle:nth-child(4n + 3) {
+  color: #60a5fa;
+}
+.card-burst-particle:nth-child(4n + 4) {
+  color: #f472b6;
+}
+
+@keyframes burstOut {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0)
+      rotate(0deg) scale(0.4);
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(38px)
+      rotate(220deg) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------
+   Wildcard reveal burst — same mechanism, gold
+   colorway, slightly wider spread
+--------------------------------------------- */
+.card-burst--wildcard .card-burst-particle {
+  font-size: 15px;
+  color: var(--accent-amber);
+  animation-duration: 0.6s;
+}
+
+.card-burst-particle--wildcard:nth-child(3n + 2) {
+  color: #fde047;
+}
+
+.card-burst--wildcard .card-burst-particle {
+  animation-name: burstOutWide;
+}
+
+@keyframes burstOutWide {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0)
+      rotate(0deg) scale(0.3);
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(48px)
+      rotate(-200deg) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------
+   Backside pattern — same for every card
+--------------------------------------------- */
+.card-back-pattern {
+  width: 55%;
+  height: 55%;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 180, 84, 0.14) 0 6px,
+    transparent 6px 14px
+  );
+  border: 1.5px solid rgba(255, 180, 84, 0.25);
+}
+
+/* ---------------------------------------------
+   Front value
+--------------------------------------------- */
+.card-value {
+  font-size: clamp(22px, 6vw, 38px);
+  line-height: 1;
+}
+
+.card-wildcard-badge {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 13px;
+}
+
+/* ---------------------------------------------
+   Reduced motion
+--------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .card-inner {
+    transition: none;
+  }
+  .card-burst {
+    display: none;
+  }
+}

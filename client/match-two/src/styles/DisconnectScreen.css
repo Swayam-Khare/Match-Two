@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+/* box-sizing reset scoped to this component — see LobbyScreen.css
+   for why this matters */
+.disconnect-root,
+.disconnect-root *,
+.disconnect-root *::before,
+.disconnect-root *::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------
+   Tokens (kept in sync with LobbyScreen.css so
+   both screens read as the same product)
+--------------------------------------------- */
+.disconnect-root {
+  --bg-void: #0a0d1a;
+  --bg-panel: #141830;
+  --bg-panel-raised: #1c2242;
+
+  --accent-amber: #ffb454;
+  --accent-mint: #5eead4;
+  --accent-mint-dim: #5eead426;
+
+  --text-primary: #f5f3ee;
+  --text-muted: #7a80a1;
+  --text-faint: #4d5273;
+
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-mint: rgba(94, 234, 212, 0.35);
+
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 10px;
+
+  --font-display: 'Fredoka', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+
+  font-family: var(--font-body);
+  color: var(--text-primary);
+}
+
+/* ---------------------------------------------
+   Page shell
+--------------------------------------------- */
+.disconnect-root {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background: var(--bg-void);
+  position: relative;
+  overflow: hidden;
+}
+
+.disconnect-glow {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: 620px;
+  height: 620px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(94, 234, 212, 0.12) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------
+   Main card — single orchestrated reveal
+--------------------------------------------- */
+.disconnect-card {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 44px 36px 36px;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------------------------------------------
+   Brand mark
+--------------------------------------------- */
+.disconnect-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.disconnect-brand-mark {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.disconnect-brand-mark span {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2.5px solid var(--text-faint);
+}
+
+.disconnect-brand-mark span:first-child {
+  top: 0;
+  left: 0;
+  background: var(--bg-panel);
+}
+
+.disconnect-brand-mark span:last-child {
+  bottom: 0;
+  right: 0;
+  background: var(--text-faint);
+  border-color: var(--text-faint);
+}
+
+.disconnect-brand-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------
+   Win badge — checkmark ring
+--------------------------------------------- */
+.disconnect-badge {
+  width: 76px;
+  height: 76px;
+  border-radius: 22px;
+  background: var(--accent-mint-dim);
+  border: 1.5px solid var(--border-mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.disconnect-badge svg {
+  width: 34px;
+  height: 34px;
+}
+
+.disconnect-badge svg path {
+  fill: none;
+  stroke: var(--accent-mint);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 32;
+  stroke-dashoffset: 32;
+  animation: drawCheck 0.4s ease-out 0.35s forwards;
+}
+
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ---------------------------------------------
+   Copy
+--------------------------------------------- */
+.disconnect-headline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.2;
+  margin: 0 0 10px;
+}
+
+.disconnect-subline {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 36ch;
+  margin: 0 0 30px;
+}
+
+/* ---------------------------------------------
+   Action
+--------------------------------------------- */
+.disconnect-home-btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--bg-void);
+  background: var(--accent-mint);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 13px 26px;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.disconnect-home-btn:hover {
+  filter: brightness(1.08);
+}
+
+.disconnect-home-btn:active {
+  transform: scale(0.97);
+}
+
+.disconnect-home-btn:focus-visible {
+  outline: 2px solid var(--accent-mint);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------
+   Reduced motion
+--------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .disconnect-card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .disconnect-badge svg path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------------------------------------------
+   Small screens
+--------------------------------------------- */
+@media (max-width: 480px) {
+  .disconnect-card {
+    padding: 34px 22px 28px;
+  }
+  .disconnect-headline {
+    font-size: 25px;
+  }
+  .disconnect-home-btn {
+    width: 100%;
+  }
+}

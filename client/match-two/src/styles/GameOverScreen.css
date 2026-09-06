@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+/* box-sizing reset scoped to this component */
+.gameover-root,
+.gameover-root *,
+.gameover-root *::before,
+.gameover-root *::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------
+   Tokens (kept in sync with the rest of the app)
+--------------------------------------------- */
+.gameover-root {
+  --bg-void: #0a0d1a;
+  --bg-panel: #141830;
+  --bg-panel-raised: #1c2242;
+
+  --accent-amber: #ffb454;
+  --accent-mint: #5eead4;
+  --accent-mint-dim: #5eead426;
+  --accent-lose: #fb7185;
+  --accent-lose-dim: #fb718526;
+  --accent-tie: #93c5fd;
+  --accent-tie-dim: #93c5fd26;
+
+  --text-primary: #f5f3ee;
+  --text-muted: #7a80a1;
+  --text-faint: #4d5273;
+
+  --border-subtle: rgba(255, 255, 255, 0.07);
+
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 10px;
+
+  --font-display: 'Fredoka', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+
+  font-family: var(--font-body);
+  color: var(--text-primary);
+}
+
+/* ---------------------------------------------
+   Page shell
+--------------------------------------------- */
+.gameover-root {
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background: var(--bg-void);
+  position: relative;
+  overflow: hidden;
+}
+
+.gameover-glow {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: 620px;
+  height: 620px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.gameover-glow--win {
+  background: radial-gradient(circle, rgba(94, 234, 212, 0.12) 0%, transparent 68%);
+}
+
+.gameover-glow--lose {
+  background: radial-gradient(circle, rgba(251, 113, 133, 0.1) 0%, transparent 68%);
+}
+
+.gameover-glow--tie {
+  background: radial-gradient(circle, rgba(147, 197, 253, 0.1) 0%, transparent 68%);
+}
+
+/* ---------------------------------------------
+   Main card
+--------------------------------------------- */
+.gameover-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px 32px;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------------------------------------------
+   Brand mark
+--------------------------------------------- */
+.gameover-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.gameover-brand-mark {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.gameover-brand-mark span {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2.5px solid var(--text-faint);
+}
+
+.gameover-brand-mark span:first-child {
+  top: 0;
+  left: 0;
+  background: var(--bg-panel);
+}
+
+.gameover-brand-mark span:last-child {
+  bottom: 0;
+  right: 0;
+  background: var(--text-faint);
+  border-color: var(--text-faint);
+}
+
+.gameover-brand-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------
+   Outcome badge
+--------------------------------------------- */
+.gameover-badge {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.gameover-badge svg {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.gameover-card--win .gameover-badge {
+  background: var(--accent-mint-dim);
+  border: 1.5px solid rgba(94, 234, 212, 0.35);
+}
+.gameover-card--win .gameover-badge svg { stroke: var(--accent-mint); }
+
+.gameover-card--lose .gameover-badge {
+  background: var(--accent-lose-dim);
+  border: 1.5px solid rgba(251, 113, 133, 0.35);
+}
+.gameover-card--lose .gameover-badge svg { stroke: var(--accent-lose); }
+
+.gameover-card--tie .gameover-badge {
+  background: var(--accent-tie-dim);
+  border: 1.5px solid rgba(147, 197, 253, 0.35);
+}
+.gameover-card--tie .gameover-badge svg { stroke: var(--accent-tie); }
+
+/* ---------------------------------------------
+   Copy
+--------------------------------------------- */
+.gameover-headline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
+
+.gameover-subline {
+  font-size: 14.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 34ch;
+  margin: 0 0 28px;
+}
+
+/* ---------------------------------------------
+   Scores
+--------------------------------------------- */
+.gameover-scores {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-panel-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px 14px;
+  margin-bottom: 26px;
+}
+
+.gameover-score-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.gameover-score-panel--you .gameover-score-label {
+  color: var(--text-primary);
+}
+
+.gameover-score-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.gameover-score-value {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.gameover-score-divider {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+/* ---------------------------------------------
+   Action
+--------------------------------------------- */
+.gameover-home-btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--bg-void);
+  background: var(--accent-amber);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 13px 26px;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.gameover-home-btn:hover {
+  filter: brightness(1.08);
+}
+
+.gameover-home-btn:active {
+  transform: scale(0.97);
+}
+
+.gameover-home-btn:focus-visible {
+  outline: 2px solid var(--accent-amber);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------
+   Reduced motion
+--------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .gameover-card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------
+   Small screens
+--------------------------------------------- */
+@media (max-width: 480px) {
+  .gameover-card {
+    padding: 32px 20px 26px;
+  }
+  .gameover-headline {
+    font-size: 24px;
+  }
+  .gameover-score-value {
+    font-size: 24px;
+  }
+  .gameover-home-btn {
+    width: 100%;
+  }
+}
