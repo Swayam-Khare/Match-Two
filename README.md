@@ -56,7 +56,7 @@ npm run dev
 
 **2. Start the Frontend:**
 ```bash
-cd client
+cd client/match-two
 npm install
 npm run dev
 ```
